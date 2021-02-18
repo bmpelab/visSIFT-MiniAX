@@ -1,0 +1,2 @@
+C:\Users\furuk\source\repos\PhotronAPI\x64\Debug\PhotronAPI.exe
+C:\Users\furuk\source\repos\PhotronAPI\x64\Debug\PhotronAPI.pdb
