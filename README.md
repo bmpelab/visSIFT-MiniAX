@@ -14,12 +14,13 @@ ECCSアカウントでダウンロードできる．<br>
 https://visualstudio.microsoft.com/ja/downloads/
 
 ### Photron提供のSDKからライブラリを追加
+~/visSIFT-MiniAX/PhotronAPI.sln を Visual Studio 2019 で開く．<br>
 以下のサイトから Photron Software Package 4.0.3.0 をダウンロードして分かりやすい場所に置いておく．<br>
 https://photron.com/software-downloads/ <br>
 もしくは Mini AX 付属の DVD から，PFV4_DVDImage(V4.0.3.0) フォルダをダウンロードしてきてもよい．<br>
 <br>
 ライブラリ追加の方法は (パッケージ最上位フォルダ)/SDK/Doc/PDCLIB_JP に書いてあるが，同じ内容を以下にも記述する．<br>
-Visual Studioのメニューの「プロジェクト→Photron APIのプロジェクト」から以下のように文字列を追加．<br>
+Visual Studioのメニューの プロジェクト->プロパティ から以下のように文字列を追加．<br>
 - リンカー -> 全般 -> 追加のライブラリディレクトリ
 PDCLIB.libが入ってるフォルダへのフルパスを追加．((パッケージ最上位フォルダ)/SDK/Lib/64bit(x64))
 - リンカー -> 入力 -> 追加の依存ファイル
@@ -45,13 +46,13 @@ https://opencv.org/releases/ <br>
 ### Visual StudioでOpenCVのパスを通す
 Visual Studioのメニューの「プロジェクト→Photron API」のプロジェクトから以下のように文字列を追加．<br>
 - リンカー -> 全般 -> 追加のライブラリディレクトリ
-C:\Users\furuk\opencv-4.4.0\build\x64\vc15\lib を追加
+(openCVのインストール先)\opencv-4.4.0\build\x64\vc15\lib を追加
 - リンカー -> 入力 -> 追加のライブラリディレクトリ
 　「opencv_world440d.lib」と「opencv_world440.lib」を追加
 - C/C++ -> 全般 > 追加のインクルードディレクトリ
-C:\Users\furuk\opencv-4.4.0\build\include を追加 <br>
+(openCVのインストール先)\opencv-4.4.0\build\include を追加 <br>
 環境変数のPathにOpenCVの dll が格納されている<br>
-(前略)\opencv-4.4.0\install\x64\vc15\bin を追加．<br>
+(openCVのインストール先)\opencv-4.4.0\install\x64\vc15\bin を追加．<br>
 PCを再起動．<br>
 <br>
 以上の設定により，C++のプログラム上で<br>
@@ -62,8 +63,8 @@ using namespace cv; <br>
 ### ファイヤーウォールの設定
 以上の設定を行ったうえでプログラムを実行した際に，カメラの検出が行えない場合が存在する．<br>
 ファイヤーウォールに遮断されているのが原因だった場合，以下の設定で直せる．<br>
-コントロールパネル → システムとセキュリティ → Windows Defender ファイヤーウォール<br>
-から，「別のアプリの許可」で，PhotronのSDKの実行ファイルに許可設定を与えた．<br>
+コントロールパネル → システムとセキュリティ → Windows Defender ファイヤーウォール → Windows Difender ファイヤーウォールを介したアプリまたは機能を許可<br>
+から，「別のアプリの許可」で，PhotronのSDKの実行ファイルに許可設定を与える．<br>
 C:\Users\furuk\source\PhotronAPI\x64\Release\PhotronAPI.exe <br>
 
 ### ネットワーク設定の変更
