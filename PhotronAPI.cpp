@@ -79,7 +79,7 @@ int main()
     *  SIFT特徴量マッチング   Matching of SIFT description
     *
     *************************************************************/
-    String filepath = MakeDirWithTime("C:/Users/furuk/source/repos/PhotronAPI/Result/"); // 画像保存用フォルダの作成とそのフルパスの取得（フォルダ名は現在時刻）
+    String filepath = MakeDirWithTime("./Result/"); // 画像保存用フォルダの作成とそのフルパスの取得（フォルダ名は現在時刻）
     cv::Mat prev_frame, best_frame = cv::Mat::zeros(nWidth, nHeight, CV_8U); // フレーム
     cv::Mat prev_frame_keypoints = cv::Mat::zeros(nWidth, nHeight, CV_8UC3); // キーポイント描画したフレーム
     cv::Ptr<Feature2D> detector = cv::SIFT::create(0, 6, 0.04, 10.0, 3.0); // SIFTキーポイント検出器（パラメータは基本OpenMVGと同じ。Edge thresholdだけ厳しめに設定。）
