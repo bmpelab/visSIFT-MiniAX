@@ -1,1 +1,2 @@
 C:\Users\furuk\source\repos\PhotronAPI\x64\Release\PhotronAPI.exe
+C:\Users\bmpe\repos\visSIFT-MiniAX\x64\Release\PhotronAPI.exe
