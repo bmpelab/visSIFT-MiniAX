@@ -1,2 +1,5 @@
-Result
+Result/*
 .vs
+*.tlog
+*.log
+*~
