@@ -1,0 +1,251 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// “ú–{Œê resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
+#ifdef _WIN32
+LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
+#pragma code_page(932)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE MOVEABLE PURE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE MOVEABLE PURE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE MOVEABLE PURE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#include ""res\\FastCamMonitor.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""         // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON    DISCARDABLE     "res\\FastCamMonitor.ico"
+#endif    // “ú–{Œê resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// ‰pŒê (±ÒØ¶) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 235, 55
+STYLE DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About FastCamMonitor"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
+    LTEXT           "FastCamMonitor Version 1.0.0.2",IDC_STATIC,40,10,119,8,
+                    SS_NOPREFIX
+    LTEXT           "Copyright (C) 2010 PHOTRON LIMITED",IDC_STATIC,40,25,
+                    158,8
+    DEFPUSHBUTTON   "OK",IDOK,178,7,50,16,WS_GROUP
+END
+
+IDD_FASTCAMMONITOR_DIALOG DIALOGEX 0, 0, 644, 429
+STYLE DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "FastCamMonitor"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_MOVIE_RANGE,"Static",SS_BITMAP | SS_CENTERIMAGE,
+                    36,29,361,373
+    PUSHBUTTON      "Record",IDC_RECORD_MEMORY,488,222,68,14,WS_DISABLED
+    PUSHBUTTON      "Play",IDC_PLAY_MEMORY,442,282,68,14,WS_DISABLED
+    PUSHBUTTON      "Download",IDC_RECORD_SAVE_HD,442,307,68,14,WS_DISABLED
+    PUSHBUTTON      "Stop",IDC_STOP_MEMORY,533,282,68,14,WS_DISABLED
+    PUSHBUTTON      "Exit",IDC_PROGRAM_EXIT,533,340,68,14
+    PUSHBUTTON      "Version",IDC_VERSION_INF,442,340,68,14
+    CONTROL         "Live",IDC_MODE_LIVE,"Button",BS_AUTORADIOBUTTON | 
+                    WS_DISABLED | WS_GROUP,480,195,54,14
+    CONTROL         "Memory",IDC_MODE_MEMORY,"Button",BS_AUTORADIOBUTTON | 
+                    WS_DISABLED,539,195,54,14
+    LTEXT           "",IDC_DEVICE_NAME,439,46,166,12,SS_SUNKEN
+    LTEXT           "Status",IDC_STATIC,440,65,71,12
+    LTEXT           "",IDC_DISP_STATUS1,521,65,84,12,SS_SUNKEN
+    LTEXT           "Device",IDC_STATIC,440,84,71,12
+    LTEXT           "Frame Rate [FPS]",IDC_STATIC,440,103,71,12
+    LTEXT           "Shutter Speed [S]",IDC_STATIC,440,122,71,12
+    LTEXT           "Resolution [pixel]",IDC_STATIC,440,141,71,12
+    LTEXT           "Trigger Mode",IDC_STATIC,440,160,71,12
+    LTEXT           "",IDC_DISP_TRIG,521,160,84,12,SS_SUNKEN
+    COMBOBOX        IDC_SELECT_CAMERA,521,84,84,77,CBS_DROPDOWN | CBS_SORT | 
+                    WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_CHANGE_RATE,521,103,84,75,CBS_DROPDOWN | CBS_SORT | 
+                    WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_CHANGE_SHUTTER,521,122,84,74,CBS_DROPDOWN | CBS_SORT | 
+                    WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_CHANGE_RESOLUTION,521,141,84,73,CBS_DROPDOWN | 
+                    CBS_SORT | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "",IDC_STATIC,422,21,199,224
+    GROUPBOX        "",IDC_STATIC,450,188,147,26
+    GROUPBOX        "",IDC_STATIC,422,248,199,83
+    LTEXT           "/Total Frames",IDC_STATIC,517,260,54,12
+    LTEXT           "[0]",IDC_DISP_RECFRAME,575,260,39,12
+    LTEXT           "",IDC_DISP_STATUS2,441,260,71,12,SS_SUNKEN
+END
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,2
+ PRODUCTVERSION 1,0,0,2
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904e4"
+        BEGIN
+            VALUE "Comments", "\0"
+            VALUE "CompanyName", "PHOTRON LIMITED\0"
+            VALUE "FileDescription", "TODO: <File description>\0"
+            VALUE "FileVersion", "1.0.0.2\0"
+            VALUE "InternalName", "FastCamMonitor.exe\0"
+            VALUE "LegalCopyright", "Copyright (C) 2010 PHOTRON LIMITED\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "FastCamMonitor.exe\0"
+            VALUE "PrivateBuild", "\0"
+            VALUE "ProductName", "TODO: <Product name>\0"
+            VALUE "ProductVersion", "1.0.0.2\0"
+            VALUE "SpecialBuild", "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1252
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO MOVEABLE PURE 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 48
+    END
+
+    IDD_FASTCAMMONITOR_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 637
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 422
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_ABOUTBOX            "&About FastCamMonitor..."
+END
+
+#endif    // ‰pŒê (±ÒØ¶) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#include "res\FastCamMonitor.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"         // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
