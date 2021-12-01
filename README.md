@@ -76,6 +76,12 @@ PFV4を再起動．<br>
 Windowsメニュー→ネットワークとインターネット→接続プロパティの変更→IP設定→編集→「自動（DHCP）」を選択して「保存」<br>
 で直せる．
 
+## 画像保存先フォルダの作成
+（前略）/visSIFT-MiniAX/ <br>
+以下に Result フォルダを作成する。<br>
+Resultフォルダまでのフルパスを MakeDirWithTime() 関数の引数にセットする。<br>
+（デフォは "C:/Users/bmpe/repos/visSIFT-MiniAX/Result/"）<br>
+
 ## プログラムの実行
 PhotronAPI.sln <br>
 を開いて実行．
