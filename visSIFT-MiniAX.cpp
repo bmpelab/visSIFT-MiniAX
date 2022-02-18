@@ -25,6 +25,7 @@ void SetShutterSpeed(unsigned long nFps);
 cv::Mat GetLiveImage();
 void Shading();
 void SetStatus();
+void showHist(cv::Mat frame_16bit);
 String MakeDirWithTime(String dir_path);
 
 /* グローバル変数 */
@@ -34,6 +35,8 @@ static unsigned long nWidth = 1024; /* 画像横幅[pixel] */
 static unsigned long nHeight = 1024; /* 画像縦幅[pixel] */
 static unsigned long fps = 50; /* 撮影のフレームレート[sec] */
 static unsigned long shutterSpeed = 50; /* シャッタースピード。1/f[sec] で表すときのfの値を設定 */
+int hist_max = 4096;
+int hist_min = 0;
 
 int main()
 {
@@ -69,6 +72,7 @@ int main()
     while (1) {
         cv::Mat frame_16bit = GetLiveImage();
         cv::Mat frame;
+        showHist(frame_16bit);
         frame_16bit.convertTo(frame, CV_8U);
         cv::putText(frame, "Move to 1st position. Then, push 's'.", cv::Point(25, 75), cv::FONT_HERSHEY_SIMPLEX, 1.5, cv::Scalar(255), 3);
         cv::imshow("view for focus check", frame); // 大体のピントを目視確認するための確認画面
@@ -133,7 +137,6 @@ int main()
 
             continue;
         }
-        printf("furu1\n");
 
         // キーポイントの抽出と特徴量の計算
         std::vector<cv::KeyPoint> keypoints;
@@ -491,6 +494,45 @@ cv::Mat GetLiveImage() {
     free(pBuf);
 
     return frame;
+}
+
+void showHist(cv::Mat frame_16bit) {
+    cv::Mat hist;
+    int N = 4096;
+    Mat hist_img(Size(N, N), CV_8UC3, Scalar::all(255));
+    Mat targetImg(Size(N, N), CV_8UC3, Scalar::all(255));
+    const int hdims[] = { N }; // 次元毎のヒストグラムサイズ
+    const float hranges[] = { 0, N };
+    const float* ranges[] = { hranges }; // 次元毎のビンの下限上限
+    double max_val = .0;
+
+    // ヒストグラムの計算
+    cv::calcHist(&frame_16bit, 1, 0, Mat(), hist, 1, hdims, ranges);
+
+    // 最大値の計算					
+    minMaxLoc(hist, 0, &max_val);
+
+    // ヒストグラムのスケーリング					
+    hist = hist * (max_val ? N / max_val : 0.);
+
+    // ヒストグラムの画像作成
+    int bin_w = saturate_cast<int>((double)N / hdims[0]);
+    for (int j = 0; j < hdims[0]; ++j) {
+        rectangle(hist_img, Point(j * bin_w, hist_img.rows), Point((j + 1) * bin_w, hist_img.rows - saturate_cast<int>(hist.at<float>(j))), Scalar::all(128), -1);
+    }
+    rectangle(hist_img, Point((hist_min - 2) * bin_w, 0), Point((hist_min + 2) * bin_w, hist_img.rows), cv::Scalar(0, 0, 200), -1);
+    rectangle(hist_img, Point((hist_max - 2) * bin_w, 0), Point((hist_max + 2) * bin_w, hist_img.rows), cv::Scalar(0, 0, 200), -1);
+
+    // トラックバーを表示するウィンドウを作成
+    cv::namedWindow("histgram");
+
+    // ヒストグラム画像表示
+    resize(hist_img, hist_img, cv::Size(), 0.2, 0.2);
+    imshow("histgram", hist_img);
+
+    // トラックバー作成
+    cv::createTrackbar("max", "histgram", &hist_max, N);
+    cv::createTrackbar("min", "histgram", &hist_min, N);
 }
 
 String MakeDirWithTime(String dir_path) {
