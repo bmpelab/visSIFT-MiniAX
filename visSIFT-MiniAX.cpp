@@ -67,9 +67,11 @@ int main()
     *************************************************************/
     // カメラ移動のための一時停止
     while (1) {
-        cv::Mat view = GetLiveImage();
-        cv::putText(view, "Move to 1st position. Then, push 's'.", cv::Point(25, 75), cv::FONT_HERSHEY_SIMPLEX, 1.5, cv::Scalar(255), 3);
-        cv::imshow("view for focus check", view); // 大体のピントを目視確認するための確認画面
+        cv::Mat frame_16bit = GetLiveImage();
+        cv::Mat frame;
+        frame_16bit.convertTo(frame, CV_8U);
+        cv::putText(frame, "Move to 1st position. Then, push 's'.", cv::Point(25, 75), cv::FONT_HERSHEY_SIMPLEX, 1.5, cv::Scalar(255), 3);
+        cv::imshow("view for focus check", frame); // 大体のピントを目視確認するための確認画面
         int k = cv::waitKey(int(1000 / fps));
         if (k == 115) {
             cv::destroyWindow("view for focus check");
@@ -95,7 +97,9 @@ int main()
     int count = 0;
     while (1) {
         // 現在のフレーム取得
-        cv::Mat frame = GetLiveImage();
+        cv::Mat frame_16bit = GetLiveImage();
+        cv::Mat frame;
+        frame_16bit.convertTo(frame, CV_8U);
 
         // 最初だけ個別に計算
         if (count == 0) {
@@ -112,9 +116,11 @@ int main()
 
             // カメラ移動のための一時停止
             while (1) {
-                cv::Mat view = GetLiveImage();
-                cv::putText(view, "Move to next position. Then, push 's'.", cv::Point(25, 75), cv::FONT_HERSHEY_SIMPLEX, 1.5, cv::Scalar(255), 3);
-                cv::imshow("view for focus check", view); // 大体のピントを目視確認するための確認画面
+                cv::Mat tmp_frame_16bit = GetLiveImage();
+                cv::Mat tmp_frame;
+                tmp_frame_16bit.convertTo(tmp_frame, CV_8U);
+                cv::putText(tmp_frame, "Move to next position. Then, push 's'.", cv::Point(25, 75), cv::FONT_HERSHEY_SIMPLEX, 1.5, cv::Scalar(255), 3);
+                cv::imshow("view for focus check", tmp_frame); // 大体のピントを目視確認するための確認画面
                 int k = cv::waitKey(int(1000 / fps));
                 if (k == 115) {
                     cv::destroyWindow("view for focus check");
@@ -127,7 +133,7 @@ int main()
 
             continue;
         }
-
+        printf("furu1\n");
 
         // キーポイントの抽出と特徴量の計算
         std::vector<cv::KeyPoint> keypoints;
@@ -223,9 +229,11 @@ int main()
 
             // カメラ移動のための一時停止
             while (1) {
-                cv::Mat view = GetLiveImage();
-                cv::putText(view, "Move to next position. Then, push 's'.", cv::Point(25, 75), cv::FONT_HERSHEY_SIMPLEX, 1.5, cv::Scalar(255), 3);
-                cv::imshow("view for focus check", view);  // 大体のピントを目視確認するための確認画面
+                cv::Mat tmp_frame_16bit = GetLiveImage();
+                cv::Mat tmp_frame;
+                tmp_frame_16bit.convertTo(tmp_frame, CV_8U);
+                cv::putText(tmp_frame, "Move to next position. Then, push 's'.", cv::Point(25, 75), cv::FONT_HERSHEY_SIMPLEX, 1.5, cv::Scalar(255), 3);
+                cv::imshow("view for focus check", tmp_frame);  // 大体のピントを目視確認するための確認画面
                 int k = cv::waitKey(int(1000 / fps));
                 if (k == 115) {
                     cv::destroyWindow("view for focus check");
@@ -254,9 +262,11 @@ int main()
 
             // カメラ移動のための一時停止
             while (1) {
-                cv::Mat view = GetLiveImage();
-                cv::putText(view, "Move to next position. Then, push 's'.", cv::Point(25, 75), cv::FONT_HERSHEY_SIMPLEX, 1.5, cv::Scalar(255), 3);
-                cv::imshow("view for focus check", view);  // 大体のピントを目視確認するための確認画面
+                cv::Mat tmp_frame_16bit = GetLiveImage();
+                cv::Mat tmp_frame;
+                tmp_frame_16bit.convertTo(tmp_frame, CV_8U);
+                cv::putText(tmp_frame, "Move to next position. Then, push 's'.", cv::Point(25, 75), cv::FONT_HERSHEY_SIMPLEX, 1.5, cv::Scalar(255), 3);
+                cv::imshow("view for focus check", tmp_frame);  // 大体のピントを目視確認するための確認画面
                 int k = cv::waitKey(int(1000 / fps));
                 if (k == 115) {
                     cv::destroyWindow("view for focus check");
@@ -450,13 +460,15 @@ cv::Mat GetLiveImage() {
     /* ライブ画像の取得・表示 */
     unsigned long nRet;
     unsigned long nErrorCode;
-    unsigned char* pBuf; /* ライブ画像を格納するメモリ配列のポインタ */
-    pBuf = (unsigned char*)malloc(nWidth * nHeight);
+    unsigned short* pBuf; /* ライブ画像を格納するメモリ配列のポインタ */
+    pBuf = (unsigned short*)malloc(sizeof(unsigned short) * nWidth * nHeight);
+
     nRet = PDC_GetLiveImageData(nDeviceNo,
 		nChildNo,
-		8,  /* 8ビット */
+		16,  /* 16ビット */
 		pBuf,
 		&nErrorCode);
+
     if (nRet == PDC_FAILED) {
         printf("PDC_GetLiveImageData Error %d\n", nErrorCode);
         free(pBuf);
@@ -464,12 +476,12 @@ cv::Mat GetLiveImage() {
     }
 
     // pBuf : 画像左上を原点とするバイナリファイル
-    cv::Mat frame = cv::Mat::zeros(nWidth, nHeight, CV_8U);
+    cv::Mat frame = cv::Mat::zeros(nWidth, nHeight, CV_16U);
     int index;
     for (int y = 0; y < nHeight; y++) {
         for (int x = 0; x < nWidth; x++) {
             index = y * nWidth + x;
-            frame.at<uchar>(y, x) = pBuf[index];
+            frame.at<unsigned short>(y, x) = pBuf[index];
         }
     }
 
