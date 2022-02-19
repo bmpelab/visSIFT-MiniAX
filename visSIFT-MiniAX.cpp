@@ -130,6 +130,7 @@ int main()
             // カメラ移動のための一時停止
             while (1) {
                 cv::Mat tmp_frame_16bit = GetLiveImage();
+                showHist(tmp_frame_16bit);
                 cv::Mat tmp_frame_16bit_normalized = tmp_frame_16bit.clone();
                 cv::Mat tmp_frame;
                 tmp_frame_16bit_normalized = tmp_frame_16bit - hist_min; // 下限（hist_min）以下の画素値を0にする
@@ -270,6 +271,7 @@ int main()
         // カメラ移動のための一時停止
         while (1) {
             cv::Mat tmp_frame_16bit = GetLiveImage();
+            showHist(tmp_frame_16bit);
             cv::Mat tmp_frame_16bit_normalized = tmp_frame_16bit.clone();
             cv::Mat tmp_frame;
             tmp_frame_16bit_normalized = tmp_frame_16bit - hist_min; // 下限（hist_min）以下の画素値を0にする
