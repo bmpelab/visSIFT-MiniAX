@@ -228,6 +228,7 @@ int main()
         int k = cv::waitKey(int(1000 / fps));
         if (k == 27) {
             break;
+
         }else if(k == 115){
             // prev_* の値の保持
             prev_frame = best_frame.clone();
@@ -241,31 +242,6 @@ int main()
             cv::cvtColor(best_frame, best_frame_color, COLOR_GRAY2BGR);
             cv::imwrite(filepath + "H" + filename.str() + ".jpg", best_frame_color); // ベストフレームを保存する
 
-            // 確認画面の削除
-            cv::destroyWindow("compare view");
-
-            // カメラ移動のための一時停止
-            while (1) {
-                cv::Mat tmp_frame_16bit = GetLiveImage();
-                cv::Mat tmp_frame_16bit_normalized = tmp_frame_16bit.clone();
-                cv::Mat tmp_frame;
-                tmp_frame_16bit_normalized = tmp_frame_16bit - hist_min; // 下限（hist_min）以下の画素値を0にする
-                tmp_frame_16bit_normalized = tmp_frame_16bit_normalized + cv::Scalar(hist_min + (65536 - hist_max)); // 上限（hist_max）以上の画素値をMaxにする
-                cv::normalize(tmp_frame_16bit_normalized, tmp_frame_16bit_normalized, 0, 4096, cv::NORM_MINMAX); // 正規化
-                tmp_frame_16bit_normalized.convertTo(tmp_frame, CV_8U, 1.0 / 16); // 12bit -> 8bit ∴ 1/16
-
-                cv::putText(tmp_frame, "Move to next position. Then, push 's'.", cv::Point(25, 75), cv::FONT_HERSHEY_SIMPLEX, 1.5, cv::Scalar(255), 3);
-                cv::imshow("view for focus check", tmp_frame);  // 大体のピントを目視確認するための確認画面
-                int k = cv::waitKey(int(1000 / fps));
-                if (k == 115) {
-                    cv::destroyWindow("view for focus check");
-                    break;
-                }
-            }
-
-            // 値のリセット・更新
-            best_score = 100000.0;
-            count++;
         }else if (k == 99) {
             // prev_* の値の保持
             prev_frame = frame.clone();
@@ -279,33 +255,40 @@ int main()
             cv::cvtColor(frame, frame_color, COLOR_GRAY2BGR);
             cv::imwrite(filepath + "H" + filename.str() + ".jpg", frame_color);  // 現在のフレームを保存する
 
-            // 確認画面の削除
-            cv::destroyWindow("compare view");
-
-            // カメラ移動のための一時停止
-            while (1) {
-                cv::Mat tmp_frame_16bit = GetLiveImage();
-                cv::Mat tmp_frame_16bit_normalized = tmp_frame_16bit.clone();
-                cv::Mat tmp_frame;
-                tmp_frame_16bit_normalized = tmp_frame_16bit - hist_min; // 下限（hist_min）以下の画素値を0にする
-                tmp_frame_16bit_normalized = tmp_frame_16bit_normalized + cv::Scalar(hist_min + (65536 - hist_max)); // 上限（hist_max）以上の画素値をMaxにする
-                cv::normalize(tmp_frame_16bit_normalized, tmp_frame_16bit_normalized, 0, 4096, cv::NORM_MINMAX); // 正規化
-                tmp_frame_16bit_normalized.convertTo(tmp_frame, CV_8U, 1.0 / 16); // 12bit -> 8bit ∴ 1/16
-
-                cv::putText(tmp_frame, "Move to next position. Then, push 's'.", cv::Point(25, 75), cv::FONT_HERSHEY_SIMPLEX, 1.5, cv::Scalar(255), 3);
-                cv::imshow("view for focus check", tmp_frame);  // 大体のピントを目視確認するための確認画面
-                int k = cv::waitKey(int(1000 / fps));
-                if (k == 115) {
-                    cv::destroyWindow("view for focus check");
-                    break;
-                }
-            }
-
-            // 値のリセット・更新
+        }
+        else {
             best_score = 100000.0;
-            count++;
+            continue;
+
         }
 
+        // 以下、「s」か「c」が押された場合の共通処理。
+
+        // 確認画面の削除
+        cv::destroyWindow("compare view");
+
+        // カメラ移動のための一時停止
+        while (1) {
+            cv::Mat tmp_frame_16bit = GetLiveImage();
+            cv::Mat tmp_frame_16bit_normalized = tmp_frame_16bit.clone();
+            cv::Mat tmp_frame;
+            tmp_frame_16bit_normalized = tmp_frame_16bit - hist_min; // 下限（hist_min）以下の画素値を0にする
+            tmp_frame_16bit_normalized = tmp_frame_16bit_normalized + cv::Scalar(hist_min + (65536 - hist_max)); // 上限（hist_max）以上の画素値をMaxにする
+            cv::normalize(tmp_frame_16bit_normalized, tmp_frame_16bit_normalized, 0, 4096, cv::NORM_MINMAX); // 正規化
+            tmp_frame_16bit_normalized.convertTo(tmp_frame, CV_8U, 1.0 / 16); // 12bit -> 8bit ∴ 1/16
+
+            cv::putText(tmp_frame, "Move to next position. Then, push 's'.", cv::Point(25, 75), cv::FONT_HERSHEY_SIMPLEX, 1.5, cv::Scalar(255), 3);
+            cv::imshow("view for focus check", tmp_frame);  // 大体のピントを目視確認するための確認画面
+            int k = cv::waitKey(int(1000 / fps));
+            if (k == 115) {
+                cv::destroyWindow("view for focus check");
+                break;
+            }
+        }
+
+        // 値のリセット・更新
+        best_score = 100000.0;
+        count++;
     }
 }
 
