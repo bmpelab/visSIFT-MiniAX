@@ -206,8 +206,8 @@ int main()
         // 上側にベストの状態、下側に現在の状態を表示する。
         // また、左側にマッチング結果、右側にフレームを出す。
         cv::Mat compare_view, best_frame_color, frame_color, tmpMat1, tmpMat2;
-        cvtColor(frame, frame_color, cv::COLOR_GRAY2BGR);  // 画像のチャンネル数を合わせる
-        cvtColor(best_frame, best_frame_color, cv::COLOR_GRAY2BGR);  // 画像のチャンネル数を合わせる
+        cv::cvtColor(frame, frame_color, cv::COLOR_GRAY2BGR);  // 画像のチャンネル数を合わせる
+        cv::cvtColor(best_frame, best_frame_color, cv::COLOR_GRAY2BGR);  // 画像のチャンネル数を合わせる
         cv::hconcat(best_match_img, best_frame_color, tmpMat1);
         cv::hconcat(match_img, frame_color, tmpMat2);
         cv::vconcat(tmpMat1, tmpMat2, compare_view);
@@ -534,7 +534,7 @@ void showHist(cv::Mat frame_16bit) {
     cv::namedWindow("histgram");
 
     // ヒストグラム画像表示
-    resize(hist_img, hist_img, cv::Size(), 0.2, 0.2);
+    cv::resize(hist_img, hist_img, cv::Size(), 0.2, 0.2);
     imshow("histgram", hist_img);
 
     // トラックバー作成
