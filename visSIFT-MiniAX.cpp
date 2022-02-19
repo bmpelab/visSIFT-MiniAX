@@ -97,7 +97,7 @@ int main()
     *************************************************************/
     String savedir_path = MakeDirWithTime("C:/Users/bmpe/repos/visSIFT-MiniAX/Result/"); // 画像保存用フォルダの親フォルダの作成とそのフルパスの取得（フォルダ名は現在時刻）
     _mkdir((savedir_path + "images" + "/").c_str()); // ヒストグラム正規化後の画像保存用フォルダ
-    _mkdir((savedir_path + "images_raw" + "/").c_str()); // raw画像（色諧調12bit、保存時16bit）保存用フォルダ
+    _mkdir((savedir_path + "images_raw" + "/").c_str()); // rawデータ（色諧調12bit、保存時16bit）保存用フォルダ
     String savedir_path_images = savedir_path + "images" + "/";
     String savedir_path_images_raw = savedir_path + "images_raw" + "/";
 
@@ -107,6 +107,7 @@ int main()
     *
     *************************************************************/
     cv::Mat prev_frame, best_frame = cv::Mat::zeros(nWidth, nHeight, CV_8U); // フレーム
+    cv::Mat prev_frame_raw, best_frame_raw = cv::Mat::zeros(nWidth, nHeight, CV_16U); // フレームraw
     cv::Mat prev_frame_keypoints = cv::Mat::zeros(nWidth, nHeight, CV_8UC3); // キーポイント描画したフレーム
     cv::Ptr<Feature2D> detector = cv::SIFT::create(0, 6, 0.04, 10.0, 3.0); // SIFTキーポイント検出器（パラメータは基本OpenMVGと同じ。Edge thresholdだけ厳しめに設定。）
     std::vector<cv::KeyPoint> prev_keypoints, best_keypoints; // キーポイント
@@ -130,6 +131,7 @@ int main()
         if (count == 0) {
             // prev_* の値の保持
             prev_frame = frame.clone(); // prev_frame
+            prev_frame_raw = frame_16bit.clone();
             detector->detectAndCompute(prev_frame, noArray(), prev_keypoints, prev_descriptors); // prev_keypoint, prev_descriptors
 
             // 画像の保存
@@ -210,6 +212,7 @@ int main()
         // 200位のスコアがベストより良ければ更新
         if (best_score > matches[matches.size() - 1].distance) {
             best_frame = frame.clone();
+            best_frame_raw = frame_16bit.clone();
             best_keypoints = keypoints;
             best_descriptors = descriptors;
             best_match_img = match_img.clone();
@@ -245,6 +248,7 @@ int main()
         }else if(k == 115){
             // prev_* の値の保持
             prev_frame = best_frame.clone();
+            prev_frame_raw = best_frame_raw.clone();
             prev_keypoints = best_keypoints;
             prev_descriptors = best_descriptors;
 
@@ -258,6 +262,7 @@ int main()
         }else if (k == 99) {
             // prev_* の値の保持
             prev_frame = frame.clone();
+            prev_frame_raw = frame_16bit.clone();
             prev_keypoints = keypoints;
             prev_descriptors = descriptors;
 
@@ -267,7 +272,7 @@ int main()
             cv::Mat frame_color; // OpenMVSでグレースケール画像を入力するとエラーを吐くためカラー画像に変換
             cv::cvtColor(frame, frame_color, COLOR_GRAY2BGR);
             cv::imwrite(savedir_path_images + "H" + filename.str() + ".jpg", frame_color);  // 現在のフレームを保存する
-
+            
         }
         else {
             best_score = 100000.0;
