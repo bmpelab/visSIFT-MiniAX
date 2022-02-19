@@ -88,12 +88,24 @@ int main()
         }
     }
 
+
+
+    /************************************************************
+    *
+    *  保存先フォルダの作成   Save folder creation
+    *   
+    *************************************************************/
+    String savedir_path = MakeDirWithTime("C:/Users/bmpe/repos/visSIFT-MiniAX/Result/"); // 画像保存用フォルダの親フォルダの作成とそのフルパスの取得（フォルダ名は現在時刻）
+    _mkdir((savedir_path + "images" + "/").c_str()); // ヒストグラム正規化後の画像保存用フォルダ
+    _mkdir((savedir_path + "images_raw" + "/").c_str()); // raw画像（色諧調12bit、保存時16bit）保存用フォルダ
+    String savedir_path_images = savedir_path + "images" + "/";
+    String savedir_path_images_raw = savedir_path + "images_raw" + "/";
+
     /************************************************************
     *
     *  SIFT特徴量マッチング   Matching of SIFT description
     *
     *************************************************************/
-    String filepath = MakeDirWithTime("C:/Users/bmpe/repos/visSIFT-MiniAX/Result/"); // 画像保存用フォルダの作成とそのフルパスの取得（フォルダ名は現在時刻）
     cv::Mat prev_frame, best_frame = cv::Mat::zeros(nWidth, nHeight, CV_8U); // フレーム
     cv::Mat prev_frame_keypoints = cv::Mat::zeros(nWidth, nHeight, CV_8UC3); // キーポイント描画したフレーム
     cv::Ptr<Feature2D> detector = cv::SIFT::create(0, 6, 0.04, 10.0, 3.0); // SIFTキーポイント検出器（パラメータは基本OpenMVGと同じ。Edge thresholdだけ厳しめに設定。）
@@ -125,7 +137,7 @@ int main()
             filename << std::setw(6) << std::setfill('0') << count; // 000000, 000001, 000002 ,... というフォーマットになる
             cv::Mat frame_color; // OpenMVSでグレースケール画像を入力するとエラーを吐くためカラー画像に変換
             cv::cvtColor(frame, frame_color, COLOR_GRAY2BGR);
-            cv::imwrite(filepath + "H" + filename.str() + ".jpg", frame_color);
+            cv::imwrite(savedir_path_images + "H" + filename.str() + ".jpg", frame_color);
 
             // カメラ移動のための一時停止
             while (1) {
@@ -241,7 +253,7 @@ int main()
             filename << std::setw(6) << std::setfill('0') << count; // 000000, 000001, 000002 ,... というフォーマットになる
             cv::Mat best_frame_color; // OpenMVSでグレースケール画像を入力するとエラーを吐くためカラー画像に変換
             cv::cvtColor(best_frame, best_frame_color, COLOR_GRAY2BGR);
-            cv::imwrite(filepath + "H" + filename.str() + ".jpg", best_frame_color); // ベストフレームを保存する
+            cv::imwrite(savedir_path_images + "H" + filename.str() + ".jpg", best_frame_color); // ベストフレームを保存する
 
         }else if (k == 99) {
             // prev_* の値の保持
@@ -254,7 +266,7 @@ int main()
             filename << std::setw(6) << std::setfill('0') << count; // 000000, 000001, 000002 ,... というフォーマットになる
             cv::Mat frame_color; // OpenMVSでグレースケール画像を入力するとエラーを吐くためカラー画像に変換
             cv::cvtColor(frame, frame_color, COLOR_GRAY2BGR);
-            cv::imwrite(filepath + "H" + filename.str() + ".jpg", frame_color);  // 現在のフレームを保存する
+            cv::imwrite(savedir_path_images + "H" + filename.str() + ".jpg", frame_color);  // 現在のフレームを保存する
 
         }
         else {
