@@ -71,9 +71,13 @@ int main()
     // カメラ移動のための一時停止
     while (1) {
         cv::Mat frame_16bit = GetLiveImage();
+        cv::Mat frame_16bit_normalized = frame_16bit.clone();
         cv::Mat frame;
         showHist(frame_16bit);
-        frame_16bit.convertTo(frame, CV_8U);
+        frame_16bit_normalized = frame_16bit - hist_min; // 下限（hist_min）以下の画素値を0にする
+        frame_16bit_normalized = frame_16bit_normalized + cv::Scalar(hist_min + (65536 - hist_max)); // 上限（hist_max）以上の画素値をMaxにする
+        cv::normalize(frame_16bit_normalized, frame_16bit_normalized, 0, 4096, cv::NORM_MINMAX); // 正規化
+        frame_16bit_normalized.convertTo(frame, CV_8U, 1.0 / 16); // 12bit -> 8bit ∴ 1/16
         cv::putText(frame, "Move to 1st position. Then, push 's'.", cv::Point(25, 75), cv::FONT_HERSHEY_SIMPLEX, 1.5, cv::Scalar(255), 3);
         cv::imshow("view for focus check", frame); // 大体のピントを目視確認するための確認画面
         int k = cv::waitKey(int(1000 / fps));
