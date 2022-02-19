@@ -140,6 +140,7 @@ int main()
             cv::Mat frame_color; // OpenMVSでグレースケール画像を入力するとエラーを吐くためカラー画像に変換
             cv::cvtColor(frame, frame_color, COLOR_GRAY2BGR);
             cv::imwrite(savedir_path_images + "H" + filename.str() + ".jpg", frame_color);
+            cv::imwrite(savedir_path_images_raw + "H" + filename.str() + ".tiff", frame_16bit);  // 正規化を行う前のraw画像を保存する
 
             // カメラ移動のための一時停止
             while (1) {
@@ -258,6 +259,7 @@ int main()
             cv::Mat best_frame_color; // OpenMVSでグレースケール画像を入力するとエラーを吐くためカラー画像に変換
             cv::cvtColor(best_frame, best_frame_color, COLOR_GRAY2BGR);
             cv::imwrite(savedir_path_images + "H" + filename.str() + ".jpg", best_frame_color); // ベストフレームを保存する
+            cv::imwrite(savedir_path_images_raw + "H" + filename.str() + ".tiff", best_frame_raw);  // 正規化を行う前のraw画像を保存する
 
         }else if (k == 99) {
             // prev_* の値の保持
@@ -272,6 +274,7 @@ int main()
             cv::Mat frame_color; // OpenMVSでグレースケール画像を入力するとエラーを吐くためカラー画像に変換
             cv::cvtColor(frame, frame_color, COLOR_GRAY2BGR);
             cv::imwrite(savedir_path_images + "H" + filename.str() + ".jpg", frame_color);  // 現在のフレームを保存する
+            cv::imwrite(savedir_path_images_raw + "H" + filename.str() + ".tiff", frame_16bit);  // 正規化を行う前のraw画像を保存する
             
         }
         else {
